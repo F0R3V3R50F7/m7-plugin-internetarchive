@@ -1,0 +1,14 @@
+{
+	"description": "Changelog (23/05/24):<p><p>* This is a Brand New Plugin!",
+	"author": "F0R3V3R50F7",
+	"homepage": "na",
+	"title": "Archive.org Videos",
+	"synopsis": "Search, Save & Stream Videos from Archive.org",
+	"version": "1.0",
+        "file": "internetarchive.js",
+	"m7Version": "7.0.0",
+	"type": "ecmascript",
+	"id": "internetarchive",
+	"icon": "https://archive.org/images/logo.png",
+	"category": "video"
+}
