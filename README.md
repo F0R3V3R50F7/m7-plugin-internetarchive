@@ -1,6 +1,3 @@
-![Internet Archive Logo](/bg.png)
-
-
 **Screenshot:**
 
 ![Screenshot](/Screenshots/1.png)
