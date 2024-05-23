@@ -1,4 +1,4 @@
-![YTS Logo](/logo.png)
+![Internet Archive Logo](/bg.png)
 
 
 **Screenshot:**
@@ -8,11 +8,8 @@
 
 **Features:**
 
-* Stream Movies from YTS.
-* Save Your Favorite Shows to 'My Favorites'. (Coming Soon)
-* Filter Out H.265 (HEVC) Search Results (For PlayStation 3). (Coming Soon)
-* Apply Minimum Seeder Value to Search Results. (Coming Soon)
-* Organised and easy to use interface with integrated metadata retreival. 
+* Stream Videos from Archive.org
+* Save Your Favorite Archives to 'My Favorites'.
 
 
 **How to Install (Official Plugin Repository):**
@@ -23,16 +20,16 @@
 
 3) Return to Movian/M7 Home Screen.
 
-4) Navigate to Plugins > Browse Available Plugins > Video Streaming > YTS
+4) Navigate to Plugins > Browse Available Plugins > Video Streaming > Archive.org
 
 5) Select Install (Plugin will now update automatically).
 
 6) Return to Movian/M7 Home Screen and Enjoy!
 
 
-![Stable-Release plugin.zip Download (Latest Version)](/yts_stable.zip?raw=true)
+![Stable-Release plugin.zip Download (Latest Version)](/internetarchive_stable.zip?raw=true)
 
-![Pre-Release plugin.zip (May Contain Bugs)](/yts_unstable.zip?raw=true)
+![Pre-Release plugin.zip (May Contain Bugs)](/internetarchive.zip?raw=true)
 
 
 **Available Languages:**
