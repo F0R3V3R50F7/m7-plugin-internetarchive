@@ -12,7 +12,7 @@ var string = require('native/string');
 var popup = require('native/popup');
 var store = require('movian/store');
 var plugin = JSON.parse(Plugin.manifest);
-var logo = 'https://archive.org/images/logo.png';
+var logo = Plugin.path + plugin.icon;
 
 function setPageHeader(page, title) {
     if (page.metadata) {

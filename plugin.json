@@ -9,6 +9,6 @@
 	"m7Version": "7.0.0",
 	"type": "ecmascript",
 	"id": "internetarchive",
-	"icon": "https://archive.org/images/logo.png",
+	"icon": "logo.png",
 	"category": "video"
 }
