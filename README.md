@@ -26,7 +26,7 @@
 
 ![Stable-Release plugin.zip Download (Latest Version)](/internetarchive_stable.zip?raw=true)
 
-![Pre-Release plugin.zip (May Contain Bugs)](/internetarchive.zip?raw=true)
+![Pre-Release plugin.zip (May Contain Bugs)](/internetarchive_unstable.zip?raw=true)
 
 
 **Available Languages:**
