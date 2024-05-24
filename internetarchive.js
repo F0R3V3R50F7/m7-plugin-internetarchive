@@ -180,12 +180,12 @@ new page.Route("internetarchive:files:(.*)", function(page, id) {
 });
 
 var favorites = store.create('favorites');
-if (!store.list) {
-    store.list = JSON.stringify([]);
+if (!favorites.list) {
+    favorites.list = JSON.stringify([]);
 }
 
 function addToFavorites(video) {
-    var list = JSON.parse(store.list);
+    var list = JSON.parse(favorites.list);
     if (isFavorite(video.identifier)) {
         popup.notify('\'' + video.title + '\' is already in My Favorites.', 3);
     } else {
@@ -197,33 +197,33 @@ function addToFavorites(video) {
             link: encodeURIComponent("internetarchive:files:" + video.identifier)
         };
         list.push(favoriteItem);
-        store.list = JSON.stringify(list);
+        favorites.list = JSON.stringify(list);
     }
 }
 
 function removeFromFavorites(videoId) {
-    var list = JSON.parse(store.list);
+    var list = JSON.parse(favorites.list);
     var video = getVideoById(videoId);
     if (video) {
         popup.notify('\'' + video.title + '\' has been removed from My Favorites.', 3);
         list = list.filter(function(fav) {
             return fav.identifier !== videoId;
         });
-        store.list = JSON.stringify(list);
+        favorites.list = JSON.stringify(list);
     } else {
         popup.notify('Video not found in favorites.', 3);
     }
 }
 
 function isFavorite(videoId) {
-    var list = JSON.parse(store.list);
+    var list = JSON.parse(favorites.list);
     return list.some(function(fav) {
         return fav.identifier === videoId;
     });
 }
 
 function getVideoById(videoId) {
-    var list = JSON.parse(store.list);
+    var list = JSON.parse(favorites.list);
     for (var i = 0; i < list.length; i++) {
         if (list[i].identifier === videoId) {
             return list[i];
@@ -300,7 +300,7 @@ new page.Route(plugin.id + ":start", function(page) {
             title: '',
         });
 
-        var list = JSON.parse(store.list);
+        var list = JSON.parse(favorites.list);
         var pos = 0;
         for (var i in list) {
             if (pos >= 4) break; // Stop after listing 4 items
@@ -362,12 +362,12 @@ new page.Route(plugin.id + ':favorites', function(page) {
     popup.notify("Empty My Favorites in the Side-Menu", 7);
 
     page.options.createAction('cleanFavorites', 'Empty My Favorites', function() {
-        store.list = '[]';
+        favorites.list = '[]';
         popup.notify('Favorites has been emptied successfully', 3);
         page.redirect(plugin.id + ':start');
     });
 
-    var favoritesList = JSON.parse(store.list);
+    var favoritesList = JSON.parse(favorites.list);
     for (var i = 0; i < favoritesList.length; i++) {
         var favorite = favoritesList[i];
         var item = page.appendItem(decodeURIComponent(favorite.link), "directory", {
