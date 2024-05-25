@@ -1,9 +1,9 @@
 {
-	"description": "Changelog (25/05/24):<p>* Fixed function 'removefromfavorites' displaying encrypted object title.<p>* Added Refresh Button to My Favorites.<p>* Fixed 'Show All' Button Icon.",
+	"description": "Changelog (25/05/24):<p>* Fixed function 'removefromfavorites' displaying encrypted object title.<p>* Added Refresh Button to My Favorites.<p>* Fixed 'Show All' Button Icon.<p>* Added Support for Music Archives.",
 	"author": "F0R3V3R50F7",
 	"homepage": "https://github.com/dajesusmodz/m7-plugin-internetarchive",
-	"title": "Archive.org Videos",
-	"synopsis": "Search, Save & Stream Videos from Archive.org",
+	"title": "Internet Archive",
+	"synopsis": "Search, Save & Stream Videos / Audio from Archive.org",
 	"version": "1.2",
         "file": "internetarchive.js",
 	"m7Version": "7.0.0",
