@@ -1,10 +1,10 @@
 {
-	"description": "Changelog (24/05/24):<p>* Fixed Favorites List Not Surviving Restarts.<p>* Lowered Logo Resolution to Improve Loading Times.",
+	"description": "Changelog (24/05/24):<p>* Fixed function 'removefromfavorites' displaying encrypted object title.<p>* Added Refresh Button to My Favorites.<p>* Fixed 'Show All' Button Icon",
 	"author": "F0R3V3R50F7",
-	"homepage": "na",
+	"homepage": "https://github.com/dajesusmodz/m7-plugin-internetarchive",
 	"title": "Archive.org Videos",
 	"synopsis": "Search, Save & Stream Videos from Archive.org",
-	"version": "1.1",
+	"version": "1.2",
         "file": "internetarchive.js",
 	"m7Version": "7.0.0",
 	"type": "ecmascript",

@@ -33,16 +33,27 @@ settings.createBool('disableMyFavorites', 'Disable My Favorites', false, functio
     service.disableMyFavorites = v;
 });
 
+function addMediaItem(page, media) {
+    var itemType = 'directory';  // Update itemType for all media items
+    var item = page.appendItem("internetarchive:files:" + media.identifier, itemType, {
+        title: media.title,
+        icon: "https://archive.org/services/img/" + media.identifier,
+        description: "Type: " + media.mediatype
+    });
+    item.icon = "https://archive.org/services/img/" + media.identifier;
+    page.entries++;
+}
+
 function addDiscoverSection(page) {
     var offset = 1;
-    var count = 9; // Number of popular videos to display
+    var count = 9; // Number of popular items to display
 
     function loader() {
         if (!offset) return false;
         page.loading = true;
 
         var args = {
-            q: 'mediatype:movies',
+            q: 'mediatype:(movies OR audio)',
             fl: ["identifier", "title", "mediatype"],
             sort: ["downloads desc"],
             rows: count,
@@ -67,9 +78,9 @@ function addDiscoverSection(page) {
 
         page.loading = false;
         for (var i in c.response.docs) {
-            var video = c.response.docs[i];
-            if (video.mediatype === 'movies') { // Filter out non-video files
-                addVideoItem(page, video);
+            var item = c.response.docs[i];
+            if (item.mediatype === 'movies' || item.mediatype === 'audio') { // Include audio files
+                addMediaItem(page, item);
                 if (page.entries >= count) return offset = false;
             }
         }
@@ -113,7 +124,6 @@ new page.Route("internetarchive:popular", function(page) {
     }
 });
 
-// Route to display the files of a selected item
 new page.Route("internetarchive:files:(.*)", function(page, id) {
     setPageHeader(page, id);
     var encodedId = encodeURIComponent(id);
@@ -140,19 +150,19 @@ new page.Route("internetarchive:files:(.*)", function(page, id) {
         return;
     }
 
-    var videoFiles = metadata.files.filter(function(file) {
-        return /\.(mp4|avi|3gp)$/.test(file.name); // Filter video files by extension
+    var mediaFiles = metadata.files.filter(function(file) {
+        return /\.(mp4|avi|3gp|mp3|ogg|m4a)$/.test(file.name); // Filter video and audio files by extension
     });
 
-    if (videoFiles.length === 0) {
+    if (mediaFiles.length === 0) {
         page.appendItem('', 'separator', {
-            title: 'No video files found in the selected item.'
+            title: 'No media files found in the selected item.'
         });
         page.loading = false;
         return;
     }
 
-    var video = {
+    var media = {
         identifier: id,
         title: metadata.metadata.title || "Unknown Title",
         mediatype: metadata.metadata.mediatype || "Unknown Type",
@@ -160,18 +170,19 @@ new page.Route("internetarchive:files:(.*)", function(page, id) {
     };
 
     page.options.createAction('addItemToFavorites', 'Save this Item to My Favorites', function() {
-        addToFavorites(video);
+        addToFavorites(media);
     });
 
     page.options.createAction('removeItemFromFavorites', 'Remove this Item from My Favorites', function() {
-        removeFromFavorites(video.identifier);
+        removeFromFavorites(media.identifier);
     });
 
-    videoFiles.forEach(function(file) {
-        var videoUrl = 'https://archive.org/download/' + encodedId + '/' + encodeURIComponent(file.name);
-        page.appendItem(videoUrl, 'video', {
+    mediaFiles.forEach(function(file) {
+        var mediaUrl = 'https://archive.org/download/' + encodedId + '/' + encodeURIComponent(file.name);
+        var type = /\.(mp4|avi|3gp)$/.test(file.name) ? 'video' : 'audio';
+        page.appendItem(mediaUrl, type, {
             title: file.name,
-            sources: [{ url: videoUrl }],
+            sources: [{ url: mediaUrl }],
             icon: listingImage // Use the listing image URL as the thumbnail
         });
     });
@@ -205,7 +216,8 @@ function removeFromFavorites(videoId) {
     var list = JSON.parse(favorites.list);
     var video = getVideoById(videoId);
     if (video) {
-        popup.notify('\'' + video.title + '\' has been removed from My Favorites.', 3);
+        var decodedTitle = decodeURIComponent(video.title);
+        popup.notify('\'' + decodedTitle + '\' has been removed from My Favorites.', 3);
         list = list.filter(function(fav) {
             return fav.identifier !== videoId;
         });
@@ -260,11 +272,12 @@ function browseItems(page, query, count) {
 
         page.loading = false;
         if (offset == 1 && page.metadata && c.response.numFound)
-            page.metadata.title = "Search results: " + c.response.numFound;
+            page.metadata.title = "Internet Archive";
+            page.model.contents = 'grid';
         for (var i in c.response.docs) {
-            var video = c.response.docs[i];
-            if (video.mediatype === 'movies') { // Filter out non-video files
-                addVideoItem(page, video);
+            var item = c.response.docs[i];
+            if (item.mediatype === 'movies' || item.mediatype === 'audio') { // Include audio files
+                addMediaItem(page, item);
                 if (count && page.entries >= count) return offset = false;
             }
         }
@@ -334,7 +347,7 @@ new page.Route(plugin.id + ":start", function(page) {
     }
 
     page.appendItem('', 'separator', {
-        title: 'Discover: Most Popular Videos'
+        title: 'Discover: Most Popular Archives'
     });
     page.appendItem('', 'separator', {
         title: ''
@@ -348,7 +361,7 @@ new page.Route(plugin.id + ":start", function(page) {
     // Add button to navigate to a new page containing all popular items
     page.appendItem("internetarchive:popular", "directory", {
         title: "Show All...",
-        icon: "https://i.postimg.cc/zGT28Cz2/favs.png"
+        icon: "https://i.postimg.cc/cJLV4kMN/seemore.png"
     });
 
     page.loading = false;
@@ -365,6 +378,11 @@ new page.Route(plugin.id + ':favorites', function(page) {
         favorites.list = '[]';
         popup.notify('Favorites has been emptied successfully', 3);
         page.redirect(plugin.id + ':start');
+    });
+
+    page.appendItem(plugin.id + ":favorites", "directory", {
+        title: "Refresh",
+        icon: 'https://i.postimg.cc/T1j3TpwG/refresh.png'
     });
 
     var favoritesList = JSON.parse(favorites.list);
