@@ -177,7 +177,7 @@ new page.Route("internetarchive:files:(.*)", function(page, id) {
     var mediaUrl = 'https://archive.org/download/' + encodedId + '/' + encodeURIComponent(file.name);
     var type = /\.(mp4|avi|3gp)$/.test(file.name) ? 'video' : 'audio';
     page.appendItem(mediaUrl, type, {
-      title: file.name,
+      title: file.name.split('/').pop(), // modified line
       sources: [{ url: mediaUrl }],
       icon: listingImage
     });
