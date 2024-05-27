@@ -1,5 +1,5 @@
 {
-	"description": "Changelog (25/05/24):<p>* Fixed Favorites Appending Oldest to Newest.",
+	"description": "Changelog (25/05/24):<p>* Fixed Favorites Appending Oldest to Newest.<p>* Added Page Header Icon (Archive.org Logo).<p>* Added Warning Messages About Retricted Files.",
 	"author": "F0R3V3R50F7",
 	"homepage": "https://github.com/dajesusmodz/m7-plugin-internetarchive",
 	"title": "Internet Archive",

@@ -1,13 +1,13 @@
 /**
- * Internet Archive plugin for Movian Media Center
+ * Internet Archive plugin for M7 Media Center
  *
  *  Copyright (C) 2024 F0R3V3R50F7
  */
 
-var page = require('showtime/page');
-var service = require('showtime/service');
-var settings = require('showtime/settings');
-var http = require('showtime/http');
+var page = require('movian/page');
+var service = require('movian/service');
+var settings = require('movian/settings');
+var http = require('movian/http');
 var string = require('native/string');
 var popup = require('native/popup');
 var store = require('movian/store');
@@ -18,6 +18,7 @@ function setPageHeader(page, title) {
   page.metadata.title = title;
   page.metadata.logo = logo;
   page.metadata.background = Plugin.path + "bg.png";
+  page.metadata.icon = Plugin.path + plugin.icon;
   page.type = "directory";
   page.contents = "items";
   page.entries = 0;
@@ -183,6 +184,7 @@ new page.Route("internetarchive:files:(.*)", function(page, id) {
   });
 
   page.loading = false;
+  popup.notify("Some Files (May) Be Restricted.", 5);
 });
 
 var favorites = store.create('favorites');
@@ -347,7 +349,8 @@ new page.Route(plugin.id + ":start", function(page) {
     });
   
     page.loading = false;
-  });
+    popup.notify("Visit Archive.org and Donate if you can!", 7);
+});
 
 new page.Route(plugin.id + ':favorites', function(page) {
     page.metadata.icon = 'https://i.postimg.cc/zGT28Cz2/favs.png';
